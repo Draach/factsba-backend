@@ -7,11 +7,11 @@ import { Category } from './entities/category.entity';
 @Injectable()
 export class CategoriesService {
   private categories: Category[] = [
-    {
+    /*     {
       id: uuid(),
       categoryName: 'Category 1',
       createdAt: new Date().getTime(),
-    },
+    }, */
   ];
   create(createCategoryDto: CreateCategoryDto) {
     const { categoryName } = createCategoryDto;
@@ -49,9 +49,14 @@ export class CategoriesService {
       }
       return category;
     });
+    return categoryDB;
   }
 
-  remove(id: string) {
+  delete(id: string) {
     this.categories = this.categories.filter((category) => category.id !== id);
+  }
+
+  fillCategoriesWithSeedData(categories: Category[]) {
+    this.categories = categories;
   }
 }

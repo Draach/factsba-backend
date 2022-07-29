@@ -10,20 +10,13 @@ import { Product } from './interfaces/product.interface';
 @Injectable()
 export class ProductsService {
   private products: Product[] = [
-    {
+    /*     {
       id: uuid(),
       productName: 'Product 1',
       productDescription: 'Product 1 description',
       productPrice: '100',
       productImage: 'https://via.placeholder.com/150',
-    },
-    {
-      id: uuid(),
-      productName: 'Product 2',
-      productDescription: 'Product 2 description',
-      productPrice: '200',
-      productImage: 'https://via.placeholder.com/150',
-    },
+    }, */
   ];
 
   public findAll(): Product[] {
@@ -82,5 +75,9 @@ export class ProductsService {
   delete(id: string) {
     this.findOneById(id);
     this.products = this.products.filter((p) => p.id !== id);
+  }
+
+  fillProductsWithSeedData(products: Product[]) {
+    this.products = products;
   }
 }
