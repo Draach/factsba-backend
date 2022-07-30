@@ -1,10 +1,17 @@
+import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { SeedModule } from './seed/seed.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
-  imports: [ProductsModule, CategoriesModule, SeedModule],
+  imports: [
+    ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'public') }),
+    ProductsModule,
+    CategoriesModule,
+    SeedModule,
+  ],
   controllers: [],
   providers: [],
 })
