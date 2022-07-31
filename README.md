@@ -4,7 +4,7 @@
 
 # Facts-BA Store
 
-# Development Setup
+## Development Setup
 
 1. Clone the repository
 2. Run
@@ -24,6 +24,11 @@ npm i -g @nestjs/cli
 ```
 docker-compose up -d
 ```
+
+## Stack
+* MongoDB
+* Nest
+
 
 Populate DB
 
