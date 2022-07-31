@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { v4 as uuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dtos';
 import { Product } from './entities/product.entity';
@@ -21,15 +21,26 @@ export class ProductsService {
   public findAll(): Product[] {
     return this.products;
   }
+*/
+  async findOneById(id: string) {
+    let product: Product;
 
-  public findOneById(id: string): Product {
-    const product = this.products.find((p) => p.id === id);
-    if (!product) {
-      throw new NotFoundException('Product not found');
+    if (isValidObjectId(id)) {
+      product = await this.productModel.findById(id);
     }
+
+    if (!product) {
+      product = await this.productModel.findOne({
+        name: id.toLowerCase().trim(),
+      });
+    }
+
+    if (!product)
+      throw new NotFoundException(`Product with id or name "${id}" not found`);
+
     return product;
   }
-*/
+
   async create(createProductDto: CreateProductDto) {
     createProductDto.name = createProductDto.name.toLocaleLowerCase();
     try {

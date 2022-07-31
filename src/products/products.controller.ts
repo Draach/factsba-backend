@@ -20,12 +20,12 @@ export class ProductsController {
   findAll(): Product[] {
     return this.productService.findAll();
   }
-
+  */
   @Get('/:id')
-  findOneById(@Param('id', ParseUUIDPipe) id: string): Product {
+  findOneById(@Param('id') id: string) {
     return this.productService.findOneById(id);
   }
-*/
+
   @Post()
   createProduct(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
