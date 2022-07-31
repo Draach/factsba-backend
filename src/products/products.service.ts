@@ -1,24 +1,23 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { v4 as uuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dtos';
-import { Product } from './interfaces/product.interface';
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  private products: Product[] = [
-    /*     {
-      id: uuid(),
-      productName: 'Product 1',
-      productDescription: 'Product 1 description',
-      productPrice: '100',
-      productImage: 'https://via.placeholder.com/150',
-    }, */
-  ];
+  constructor(
+    @InjectModel(Product.name)
+    private readonly productModel: Model<Product>,
+  ) {}
 
+  /*
   public findAll(): Product[] {
     return this.products;
   }
@@ -30,17 +29,25 @@ export class ProductsService {
     }
     return product;
   }
-
-  public create(createProductDto: CreateProductDto) {
-    const product: Product = {
-      id: uuid(),
-      ...createProductDto,
-    };
-
-    this.products.push(product);
-    return product;
+*/
+  async create(createProductDto: CreateProductDto) {
+    createProductDto.name = createProductDto.name.toLocaleLowerCase();
+    try {
+      const product = await this.productModel.create(createProductDto);
+      return product;
+    } catch (error) {
+      // Error 11000 means duplicate key error
+      if (error.code === 11000) {
+        throw new BadRequestException(
+          `Product already exists ${JSON.stringify(error.keyValue)}`,
+        );
+      }
+      throw new InternalServerErrorException(
+        `Can't create product - Check server logs`,
+      );
+    }
   }
-
+  /*
   update(id: string, updateProductDto: UpdateProductDto) {
     let productDB = this.findOneById(id);
 
@@ -59,17 +66,17 @@ export class ProductsService {
       return product;
     });
     return productDB;
-    /* TODO: Reevaluate using this algorithm:
-    const updatedProduct: Product = {
-      ...product,
-      ...updateProductDto,
-      id,
-    };
+    //TODO: Reevaluate using this algorithm:
+    //const updatedProduct: Product = {
+      //...product,
+      //...updateProductDto,
+      //id,
+    //};
 
-    const index = this.products.indexOf(product);
-    this.products[index] = updatedProduct;
+    //const index = this.products.indexOf(product);
+    //this.products[index] = updatedProduct;
 
-    return updatedProduct;*/
+    //return updatedProduct;  
   }
 
   delete(id: string) {
@@ -80,4 +87,5 @@ export class ProductsService {
   fillProductsWithSeedData(products: Product[]) {
     this.products = products;
   }
+  */
 }

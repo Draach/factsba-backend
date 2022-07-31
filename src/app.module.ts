@@ -2,7 +2,6 @@ import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
-import { SeedModule } from './seed/seed.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -12,7 +11,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRoot('mongodb://localhost:27017/nest-factsba'),
     ProductsModule,
     CategoriesModule,
-    SeedModule,
   ],
   controllers: [],
   providers: [],

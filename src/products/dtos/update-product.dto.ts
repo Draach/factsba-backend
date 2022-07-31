@@ -1,20 +1,13 @@
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsPositive, IsString, Min } from 'class-validator';
 
 export class UpdateProductDto {
   @IsString()
-  @IsUUID()
   @IsOptional()
-  readonly id?: string;
+  name?: string;
   @IsString()
   @IsOptional()
-  readonly productName?: string;
-  @IsString()
-  @IsOptional()
-  readonly productDescription?: string;
-  @IsString()
-  @IsOptional()
-  readonly productPrice?: string;
-  @IsString()
-  @IsOptional()
-  readonly productImage?: string;
+  description?: string;
+  @Min(1)
+  @IsPositive()
+  price: number;
 }
