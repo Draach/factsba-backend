@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateProductDto, UpdateProductDto } from './dtos';
 import { Product } from './entities/product.entity';
 
@@ -16,8 +17,14 @@ export class ProductsService {
     private readonly productModel: Model<Product>,
   ) {}
 
-  public findAll() {
-    return this.productModel.find();
+  public findAll(paginationDto: PaginationDto) {
+    const { limit = 20, offset = 0 } = paginationDto;
+    return this.productModel
+      .find()
+      .limit(limit)
+      .skip(offset)
+      .sort({ name: 1 })
+      .select('-__v');
   }
 
   async findOne(searchTerm: string) {
