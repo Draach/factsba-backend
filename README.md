@@ -25,13 +25,33 @@ npm i -g @nestjs/cli
 docker-compose up -d
 ```
 
-## Stack
-* MongoDB
-* Nest
+5. Clone the `.env.template` file and rename the copied file to `env`
 
+6. Fill the empy environment variables defined at `.env`
 
-Populate DB
+7. Execute the app in dev environment:
 
 ```
-http://localhost:3000/seed
+yarn start:dev
+```
+
+8. Populate database with seed
+
+```
+http://localhost:3000/api/seed
+```
+
+## Stack
+
+- MongoDB
+- Nest
+
+# Production Build
+
+1. Create file `.env.prod`
+2. Fill empty prod environment variables.
+3. Create the new image
+
+```
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
 ```
