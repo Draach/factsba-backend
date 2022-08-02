@@ -15,30 +15,30 @@ import { ProductsService } from './products.service';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productService: ProductsService) {}
-  /*
+
   @Get()
-  findAll(): Product[] {
+  findAll() {
     return this.productService.findAll();
   }
-  */
+
   @Get(':searchTerm')
   findOneById(@Param('searchTerm') searchTerm: string) {
-    return this.productService.findOneById(searchTerm);
+    return this.productService.findOne(searchTerm);
   }
 
   @Post()
   createProduct(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
   }
-  /*
-  @Patch(':id')
+
+  @Patch(':searchTerm')
   updateProduct(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('searchTerm') searchTerm: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    return this.productService.update(id, updateProductDto);
+    return this.productService.update(searchTerm, updateProductDto);
   }
-
+  /*
   @Delete(':id')
   deleteCar(@Param('id', ParseUUIDPipe) id: string) {
     return this.productService.delete(id);

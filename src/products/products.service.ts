@@ -17,12 +17,11 @@ export class ProductsService {
     private readonly productModel: Model<Product>,
   ) {}
 
-  /*
-  public findAll(): Product[] {
-    return this.products;
+  public findAll() {
+    return this.productModel.find();
   }
-*/
-  async findOneById(searchTerm: string) {
+
+  async findOne(searchTerm: string) {
     let product: Product;
 
     if (isValidObjectId(searchTerm)) {
@@ -49,49 +48,23 @@ export class ProductsService {
       const product = await this.productModel.create(createProductDto);
       return product;
     } catch (error) {
-      // Error 11000 means duplicate key error
-      if (error.code === 11000) {
-        throw new BadRequestException(
-          `Product already exists ${JSON.stringify(error.keyValue)}`,
-        );
-      }
-      throw new InternalServerErrorException(
-        `Can't create product - Check server logs`,
-      );
+      this.handleExceptions(error);
+    }
+  }
+
+  async update(searchTerm: string, updateProductDto: UpdateProductDto) {
+    const product = await this.findOne(searchTerm);
+    if (updateProductDto.name)
+      updateProductDto.name = updateProductDto.name.toLocaleLowerCase();
+    try {
+      await product.updateOne(updateProductDto, { new: true });
+
+      return { ...product.toJSON(), ...updateProductDto };
+    } catch (error) {
+      this.handleExceptions(error);
     }
   }
   /*
-  update(id: string, updateProductDto: UpdateProductDto) {
-    let productDB = this.findOneById(id);
-
-    if (updateProductDto.id && updateProductDto.id !== id)
-      throw new BadRequestException(`Product id is not valid inside body`);
-
-    this.products = this.products.map((product) => {
-      if (product.id === id) {
-        productDB = {
-          ...productDB,
-          ...updateProductDto,
-          id,
-        };
-        return productDB;
-      }
-      return product;
-    });
-    return productDB;
-    //TODO: Reevaluate using this algorithm:
-    //const updatedProduct: Product = {
-      //...product,
-      //...updateProductDto,
-      //id,
-    //};
-
-    //const index = this.products.indexOf(product);
-    //this.products[index] = updatedProduct;
-
-    //return updatedProduct;  
-  }
-
   delete(id: string) {
     this.findOneById(id);
     this.products = this.products.filter((p) => p.id !== id);
@@ -101,4 +74,16 @@ export class ProductsService {
     this.products = products;
   }
   */
+
+  private handleExceptions(error: any) {
+    if (error.code === 11000) {
+      throw new BadRequestException(
+        `Product already exists ${JSON.stringify(error.keyValue)}`,
+      );
+    }
+    console.log(error);
+    throw new InternalServerErrorException(
+      `Can't create Product - Check server logs`,
+    );
+  }
 }

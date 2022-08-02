@@ -1,13 +1,4 @@
-import { IsOptional, IsPositive, IsString, Min } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateProductDto } from './create-product.dto';
 
-export class UpdateProductDto {
-  @IsString()
-  @IsOptional()
-  name?: string;
-  @IsString()
-  @IsOptional()
-  description?: string;
-  @Min(1)
-  @IsPositive()
-  price: number;
-}
+export class UpdateProductDto extends PartialType(CreateProductDto) {}
