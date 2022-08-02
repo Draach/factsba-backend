@@ -64,16 +64,16 @@ export class ProductsService {
       this.handleExceptions(error);
     }
   }
-  /*
-  delete(id: string) {
-    this.findOneById(id);
-    this.products = this.products.filter((p) => p.id !== id);
-  }
 
-  fillProductsWithSeedData(products: Product[]) {
-    this.products = products;
+  async delete(id: string) {
+    //const result = await this.productModel.findByIdAndDelete(id);
+    const { deletedCount } = await this.productModel.deleteOne({ _id: id });
+    if (deletedCount === 0) {
+      throw new BadRequestException(`Product with id ${id} not found`);
+    }
+
+    return;
   }
-  */
 
   private handleExceptions(error: any) {
     if (error.code === 11000) {

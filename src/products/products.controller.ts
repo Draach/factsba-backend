@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ParseMongoIdPipe } from 'src/common/pipes/parse-mongo-id.pipe';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { ProductsService } from './products.service';
@@ -38,10 +39,9 @@ export class ProductsController {
   ) {
     return this.productService.update(searchTerm, updateProductDto);
   }
-  /*
+
   @Delete(':id')
-  deleteCar(@Param('id', ParseUUIDPipe) id: string) {
+  deleteCar(@Param('id', ParseMongoIdPipe) id: string) {
     return this.productService.delete(id);
   }
-  */
 }
