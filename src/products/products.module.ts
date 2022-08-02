@@ -15,6 +15,6 @@ import { ProductsService } from './products.service';
       },
     ]),
   ],
-  exports: [ProductsService],
+  exports: [ProductsService, MongooseModule],
 })
 export class ProductsModule {}

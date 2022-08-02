@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
-import { v4 as uuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dtos';
 import { Product } from './entities/product.entity';
 
@@ -27,7 +26,6 @@ export class ProductsService {
     if (isValidObjectId(searchTerm)) {
       product = await this.productModel.findById(searchTerm);
     }
-
     if (!product) {
       product = await this.productModel.findOne({
         name: searchTerm.toLowerCase().trim(),
