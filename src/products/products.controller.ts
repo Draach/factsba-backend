@@ -21,9 +21,9 @@ export class ProductsController {
     return this.productService.findAll();
   }
   */
-  @Get('/:id')
-  findOneById(@Param('id') id: string) {
-    return this.productService.findOneById(id);
+  @Get(':searchTerm')
+  findOneById(@Param('searchTerm') searchTerm: string) {
+    return this.productService.findOneById(searchTerm);
   }
 
   @Post()

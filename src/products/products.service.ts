@@ -22,21 +22,23 @@ export class ProductsService {
     return this.products;
   }
 */
-  async findOneById(id: string) {
+  async findOneById(searchTerm: string) {
     let product: Product;
 
-    if (isValidObjectId(id)) {
-      product = await this.productModel.findById(id);
+    if (isValidObjectId(searchTerm)) {
+      product = await this.productModel.findById(searchTerm);
     }
 
     if (!product) {
       product = await this.productModel.findOne({
-        name: id.toLowerCase().trim(),
+        name: searchTerm.toLowerCase().trim(),
       });
     }
 
     if (!product)
-      throw new NotFoundException(`Product with id or name "${id}" not found`);
+      throw new NotFoundException(
+        `Product with id or name "${searchTerm}" not found`,
+      );
 
     return product;
   }
