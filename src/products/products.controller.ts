@@ -24,7 +24,7 @@ export class ProductsController {
   }
 
   @Get(':searchTerm')
-  findOneById(@Param('searchTerm') searchTerm: string) {
+  findOne(@Param('searchTerm') searchTerm: string) {
     return this.productService.findOne(searchTerm);
   }
 

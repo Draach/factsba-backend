@@ -17,9 +17,9 @@ export class ProductsService {
     private readonly productModel: Model<Product>,
   ) {}
 
-  public findAll(paginationDto: PaginationDto) {
+  async findAll(paginationDto: PaginationDto) {
     const { limit = 20, offset = 0 } = paginationDto;
-    return this.productModel
+    return await this.productModel
       .find()
       .limit(limit)
       .skip(offset)
@@ -38,7 +38,6 @@ export class ProductsService {
         name: searchTerm.toLowerCase().trim(),
       });
     }
-
     if (!product)
       throw new NotFoundException(
         `Product with id or name "${searchTerm}" not found`,
@@ -71,12 +70,10 @@ export class ProductsService {
   }
 
   async delete(id: string) {
-    //const result = await this.productModel.findByIdAndDelete(id);
     const { deletedCount } = await this.productModel.deleteOne({ _id: id });
     if (deletedCount === 0) {
       throw new BadRequestException(`Product with id ${id} not found`);
     }
-
     return;
   }
 
