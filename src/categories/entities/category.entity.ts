@@ -4,11 +4,11 @@ import { Document } from 'mongoose';
 @Schema()
 export class Category extends Document {
   @Prop({ unique: true, index: true })
-  categoryName: string;
+  name: string;
   @Prop()
-  createdAt: number;
+  createdAt: Date;
   @Prop()
-  updatedAt?: number;
+  updatedAt?: Date;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

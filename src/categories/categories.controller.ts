@@ -23,8 +23,8 @@ export class CategoriesController {
   }
 
   @Get(':searchTerm')
-  findOne(@Param('searchTerm') id: string) {
-    return this.categoriesService.findOne(id);
+  findOne(@Param('searchTerm') searchTerm: string) {
+    return this.categoriesService.findOne(searchTerm);
   }
 
   @Post()

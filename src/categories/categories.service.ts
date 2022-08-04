@@ -48,6 +48,7 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     createCategoryDto.name = createCategoryDto.name.toLocaleLowerCase();
+    createCategoryDto.createdAt = new Date();
     try {
       const category = await this.categoryModel.create(createCategoryDto);
       return category;
@@ -60,6 +61,7 @@ export class CategoriesService {
     const category = await this.findOne(searchTerm);
     if (updateCategoryDto.name)
       updateCategoryDto.name = updateCategoryDto.name.toLocaleLowerCase();
+    updateCategoryDto.updatedAt = new Date();
     try {
       await category.updateOne(updateCategoryDto, { new: true });
 
